@@ -1,8 +1,8 @@
-#GoStack - RocketSeat Bootcamp - Challange 02
+# GoStack - RocketSeat Bootcamp - Challange 02
 
 Instructions can be found here: https://github.com/Rocketseat/bootcamp-gostack-desafio-02/blob/master/README.md
 
-##Requirements:
+## Requirements:
 
 - Make sure you have yarn installed.
 - Run "yarn" command to install all dependencies.
