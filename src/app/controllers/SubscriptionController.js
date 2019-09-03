@@ -1,13 +1,19 @@
 import { isBefore } from 'date-fns';
-import { Op } from 'sequelize';
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
+import User from '../models/User';
+
+import SubscriptionMail from '../jobs/SubscriptionMail';
+import Queue from '../../lib/Queue';
 
 class SubscriptionController {
   async store(req, res) {
-    const { meetupId } = req.body;
+    const { id } = req.params;
 
-    const meetup = await Meetup.findByPk(meetupId);
+    const meetup = await Meetup.findByPk(id, {
+      include: [User],
+    });
+    const user = await User.findByPk(req.userId);
 
     if (!meetup) {
       return res.status(400).json({ error: 'Meetup does not exist' });
@@ -25,24 +31,9 @@ class SubscriptionController {
         .json({ error: 'You cannot subscribe to past meetups' });
     }
 
-    const meetupTime = await Meetup.findOne({
-      where: {
-        id: {
-          [Op.ne]: [meetupId],
-        },
-        date: meetup.date,
-      },
-    });
-
-    if (meetupTime) {
-      return res.status(400).json({
-        error: 'You already have a meetup scheduled at the same time',
-      });
-    }
-
     const isSubscribed = await Subscription.findOne({
       where: {
-        meetup_id: meetupId,
+        meetup_id: id,
         user_id: req.userId,
       },
     });
@@ -53,9 +44,33 @@ class SubscriptionController {
         .json({ error: 'You are already subscribed to this meetup' });
     }
 
+    const meetupTime = await Subscription.findOne({
+      where: {
+        user_id: req.userId,
+      },
+      include: {
+        model: Meetup,
+        attributes: ['date'],
+        where: {
+          date: meetup.date,
+        },
+      },
+    });
+
+    if (meetupTime) {
+      return res.status(400).json({
+        error: 'You already have a meetup scheduled at the same time',
+      });
+    }
+
     const newSubscription = await Subscription.create({
-      meetup_id: meetupId,
+      meetup_id: id,
       user_id: req.userId,
+    });
+
+    await Queue.add(SubscriptionMail.key, {
+      meetup,
+      user,
     });
 
     return res.json(newSubscription);

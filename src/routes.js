@@ -26,6 +26,6 @@ routes.post('/meetups', MeetupController.store);
 routes.put('/meetups/:id', MeetupController.update);
 routes.get('/meetups', MeetupController.index);
 
-routes.post('/subscriptions', SubscriptionController.store);
+routes.post('/meetups/:id/subscriptions', SubscriptionController.store);
 
 export default routes;
