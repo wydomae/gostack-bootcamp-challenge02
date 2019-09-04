@@ -9,7 +9,7 @@ import Queue from '../../lib/Queue';
 
 class SubscriptionController {
   async index(req, res) {
-    const subscription = await Subscription.finddAll({
+    const subscription = await Subscription.findAll({
       attributes: ['meetup_id', 'user_id'],
       where: {
         user_id: req.userId,
