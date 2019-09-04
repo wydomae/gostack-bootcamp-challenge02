@@ -2,8 +2,8 @@
 
 Application created as challenge for the GoStack Bootcamp.
 
-Challange 02: https://github.com/Rocketseat/bootcamp-gostack-desafio-02/blob/master/README.md
-Challenge 03: https://github.com/Rocketseat/bootcamp-gostack-desafio-03/blob/master/README.md
+- Challange 02: https://github.com/Rocketseat/bootcamp-gostack-desafio-02/blob/master/README.md
+- Challenge 03: https://github.com/Rocketseat/bootcamp-gostack-desafio-03/blob/master/README.md
 
 ## Requirements:
 
