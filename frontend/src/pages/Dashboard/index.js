@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { MdAddCircleOutline, MdChevronRight } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { format, parseISO } from 'date-fns';
 import en from 'date-fns/locale/en-US';
+
 import api from '~/services/api';
+
+import { loadMeetupRequest } from '~/store/modules/meetup/actions';
 
 import { Container, MeetupHeader, MeetupList } from './styles';
 
 export default function Dashboard() {
   const [meetups, setMeetups] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadMeetups() {
@@ -29,6 +34,10 @@ export default function Dashboard() {
     loadMeetups();
   }, []);
 
+  function handleRequest(data) {
+    dispatch(loadMeetupRequest(data));
+  }
+
   return (
     <Container>
       <MeetupHeader>
@@ -45,14 +54,7 @@ export default function Dashboard() {
       <MeetupList>
         {meetups.length !== 0 ? (
           meetups.map(meetup => (
-            <Link
-              to={{
-                pathname: '/details',
-                state: {
-                  data: meetup,
-                },
-              }}
-            >
+            <button type="button" onClick={() => handleRequest(meetup)}>
               <li key={meetup.id}>
                 <strong>{meetup.name}</strong>
                 <div>
@@ -60,7 +62,7 @@ export default function Dashboard() {
                   <MdChevronRight size={20} color="#fff" />
                 </div>
               </li>
-            </Link>
+            </button>
           ))
         ) : (
           <li>

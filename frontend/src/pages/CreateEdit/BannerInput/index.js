@@ -7,7 +7,7 @@ import api from '~/services/api';
 import { Container } from './styles';
 
 export default function BannerInput() {
-  const { defaultValue, registerField } = useField('meetup');
+  const { defaultValue, registerField } = useField('data.image');
 
   const [file, setFile] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);

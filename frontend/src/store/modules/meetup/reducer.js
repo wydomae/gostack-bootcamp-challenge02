@@ -1,14 +1,14 @@
 import produce from 'immer';
 
 const INITIAL_STATE = {
-  meetup: null,
+  data: null,
 };
 
-export default function auth(state = INITIAL_STATE, action) {
+export default function meetup(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
-      case '@auth/CREATE_REQUEST': {
-        console.tron.log(state);
+      case '@meetup/LOAD_SUCCESS': {
+        draft.data = action.payload.data;
         break;
       }
       default:

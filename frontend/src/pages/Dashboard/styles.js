@@ -54,39 +54,43 @@ export const MeetupList = styled.ul`
   display: flex;
   flex-direction: column;
 
-  li {
-    background: rgba(0, 0, 0, 0.1);
-    border: 0;
-    border-radius: 4px;
-    padding: 20px 30px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
+  button {
+      background: rgba(0, 0, 0, 0.1);
+      border: 0;
+      border-radius: 4px;
+      padding: 20px 30px;
+      margin-bottom: 10px;
 
-    strong {
-      color: #fff;
-      font-size: 18px;
-    }
-
-    href {
+    li {
       display: flex;
-      text-decoration: none;
-    }
-
-    div {
-      display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
 
-      span {
-        color: rgba(255, 255, 255, 0.6);
+      strong {
+        color: #fff;
+        font-size: 18px;
       }
 
-      button {
-        background: transparent;
-        border: 0;
+      href {
         display: flex;
-        margin-left: 30px;
+        text-decoration: none;
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          color: rgba(255, 255, 255, 0.6);
+        }
+
+        button {
+          background: transparent;
+          border: 0;
+          display: flex;
+          margin-left: 30px;
+        }
       }
     }
   }
