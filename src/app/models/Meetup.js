@@ -6,7 +6,7 @@ class Meetup extends Model {
       {
         name: Sequelize.STRING,
         description: Sequelize.STRING,
-        localization: Sequelize.STRING,
+        location: Sequelize.STRING,
         date: Sequelize.DATE,
       },
       {
@@ -18,6 +18,9 @@ class Meetup extends Model {
   }
 
   static associate(models) {
+    this.hasMany(models.Subscription, {
+      foreignKey: 'meetup_id',
+    });
     this.belongsTo(models.File, { foreignKey: 'image' });
     this.belongsTo(models.User, { foreignKey: 'user_id' });
   }

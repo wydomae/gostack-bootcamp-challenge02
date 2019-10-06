@@ -22,7 +22,7 @@ class MeetupController {
       order: ['date'],
       limit: 10,
       offset: (page - 1) * 10,
-      attributes: ['id', 'name', 'description', 'localization', 'date'],
+      attributes: ['id', 'name', 'description', 'location', 'date'],
       include: [
         {
           model: User,
@@ -42,7 +42,7 @@ class MeetupController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       description: Yup.string().required(),
-      localization: Yup.string().required(),
+      location: Yup.string().required(),
       date: Yup.date().required(),
       image: Yup.number().required(),
     });
@@ -51,7 +51,7 @@ class MeetupController {
       return res.status(400).json({ error: 'Validation failed' });
     }
 
-    const { name, description, localization, date } = req.body;
+    const { name, description, location, date } = req.body;
 
     const formattedDate = parseISO(date);
 
@@ -68,7 +68,7 @@ class MeetupController {
     const meetup = await Meetup.create({
       name,
       description,
-      localization,
+      location,
       date: formattedDate,
       image: image.id,
       user_id: req.userId,
@@ -81,7 +81,7 @@ class MeetupController {
     const schema = Yup.object().shape({
       name: Yup.string(),
       description: Yup.string(),
-      localization: Yup.string(),
+      location: Yup.string(),
       date: Yup.date(),
       image: Yup.number(),
     });
@@ -116,15 +116,35 @@ class MeetupController {
         .json({ error: 'You are not the organizer of this meetup' });
     }
 
-    const { name, description, localization } = await meetup.update(req.body);
+    const { name, description, location } = await meetup.update(req.body);
 
     return res.json({
       name,
       description,
-      localization,
+      location,
       date: meetup.date,
       image: image.id,
     });
+  }
+
+  async delete(req, res) {
+    const user_id = req.userId;
+
+    const meetup = await Meetup.findByPk(req.params.id);
+
+    if (meetup.user_id !== user_id) {
+      return res
+        .status(401)
+        .json({ error: "You're not authorized to delete this meetup." });
+    }
+
+    if (isBefore(meetup.date, new Date())) {
+      return res.status(400).json({ error: "You can't delete past meetups." });
+    }
+
+    await meetup.destroy();
+
+    return res.send();
   }
 }
 

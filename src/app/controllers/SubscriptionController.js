@@ -16,7 +16,7 @@ class SubscriptionController {
       },
       include: {
         model: Meetup,
-        attributes: ['name', 'description', 'localization', 'date'],
+        attributes: ['name', 'description', 'location', 'date'],
         where: {
           date: {
             [Op.gte]: new Date(),
