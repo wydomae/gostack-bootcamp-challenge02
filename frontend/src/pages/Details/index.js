@@ -9,13 +9,17 @@ import {
   MdLocationOn,
 } from 'react-icons/md';
 
-import { deleteMeetupRequest } from '~/store/modules/meetup/actions';
+import { editMeetupRequest, deleteMeetupRequest } from '~/store/modules/meetup/actions';
 
 import { Container, MeetupHeader, MeetupInfo, ActionButton } from './styles';
 
 export default function Details() {
   const meetup = useSelector(state => state.meetup.data);
   const dispatch = useDispatch();
+
+  function handleEdit(data) {
+    dispatch(editMeetupRequest(data));
+  }
 
   function handleDelete(data) {
     dispatch(deleteMeetupRequest(data));
@@ -26,7 +30,7 @@ export default function Details() {
       <MeetupHeader>
         <h1>{meetup.name}</h1>
         <div>
-          <ActionButton edit>
+          <ActionButton edit onClick={() => handleEdit(meetup)}>
             <MdModeEdit size={20} color="#fff" />
             <span>Edit</span>
           </ActionButton>

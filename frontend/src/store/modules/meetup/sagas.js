@@ -4,7 +4,30 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { loadMeetupSuccess, loadMeetupFailed, deleteMeetupSuccess, deleteMeetupFailed } from './actions';
+import {
+  loadMeetupSuccess,
+  loadMeetupFailed,
+  createMeetupSuccess,
+  createMeetupFailed,
+  editMeetupSuccess,
+  editMeetupFailed,
+  deleteMeetupSuccess,
+  deleteMeetupFailed
+} from './actions';
+
+export function* createMeetup() {
+  try {
+
+    yield put(createMeetupSuccess());
+    history.push('/create');
+
+  } catch (err) {
+
+    toast.error('Cannot open create page');
+    yield put(createMeetupFailed());
+
+  }
+}
 
 export function* loadMeetup({ payload }) {
   try {
@@ -18,10 +41,16 @@ export function* loadMeetup({ payload }) {
   }
 }
 
-export function createMeetup({ payload }) {
-  // const { title, description, date, location, banner_id } = payload;
+export function* editMeetup({ payload }) {
+  try {
+    const { data } = payload;
 
-  console.tron.log(payload);
+    yield put(editMeetupSuccess(data));
+    history.push('/edit');
+  } catch (err) {
+    toast.error('Cannot open edit page');
+    yield put(editMeetupFailed());
+  }
 }
 
 export function* deleteMeetup({ payload }) {
@@ -43,5 +72,6 @@ export function* deleteMeetup({ payload }) {
 export default all([
   takeLatest('@meetup/LOAD_REQUEST', loadMeetup),
   takeLatest('@meetup/CREATE_REQUEST', createMeetup),
+  takeLatest('@meetup/EDIT_REQUEST', editMeetup),
   takeLatest('@meetup/DELETE_REQUEST', deleteMeetup),
 ]);

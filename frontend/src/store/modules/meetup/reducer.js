@@ -11,6 +11,14 @@ export default function meetup(state = INITIAL_STATE, action) {
         draft.data = action.payload.data;
         break;
       }
+      case '@meetup/EDIT_SUCCESS': {
+        draft.data = action.payload.data;
+        break;
+      }
+      case '@meetup/CREATE_SUCCESS': {
+        draft.data = null;
+        break;
+      }
       default:
     }
   });

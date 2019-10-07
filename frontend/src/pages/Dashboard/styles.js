@@ -32,18 +32,14 @@ export const MeetupHeader = styled.div`
       background: ${darken(0.03, '#F94D6A')};
     }
 
-    a {
-      text-decoration: none;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-      div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        span {
-          color: #fff;
-          margin-left: 5px;
-        }
+      span {
+        color: #fff;
+        margin-left: 5px;
       }
     }
   }

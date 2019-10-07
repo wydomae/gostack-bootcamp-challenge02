@@ -7,7 +7,7 @@ import en from 'date-fns/locale/en-US';
 
 import api from '~/services/api';
 
-import { loadMeetupRequest } from '~/store/modules/meetup/actions';
+import { loadMeetupRequest, createMeetupRequest } from '~/store/modules/meetup/actions';
 
 import { Container, MeetupHeader, MeetupList } from './styles';
 
@@ -38,17 +38,19 @@ export default function Dashboard() {
     dispatch(loadMeetupRequest(data));
   }
 
+  function handleCreate() {
+    dispatch(createMeetupRequest());
+  }
+
   return (
     <Container>
       <MeetupHeader>
         <strong>My meetups</strong>
-        <button type="button">
-          <Link to="/create">
+        <button type="button" onClick={handleCreate}>
             <div>
               <MdAddCircleOutline size={20} color="#fff" />
               <span>New Meetup</span>
             </div>
-          </Link>
         </button>
       </MeetupHeader>
       <MeetupList>

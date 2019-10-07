@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 import ReactDatePicker from 'react-datepicker';
 import { MdAddCircleOutline } from 'react-icons/md';
@@ -12,8 +12,8 @@ import { createMeetupRequest } from '~/store/modules/meetup/actions';
 import { Container } from './styles';
 
 const schema = Yup.object().shape({
-  banner_id: Yup.number().required('Meetup banner is mandatory'),
-  title: Yup.string().required('Meetup title is mandatory'),
+  image: Yup.number().required('Meetup banner is mandatory'),
+  name: Yup.string().required('Meetup title is mandatory'),
   description: Yup.string().required('Meetup description is mandatory'),
   date: Yup.date().required('Meetup date is mandatory'),
   location: Yup.string().required('Meetup location is mandatory'),
@@ -21,6 +21,7 @@ const schema = Yup.object().shape({
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+  const meetup = useSelector(state => state.meetup.data);
   const [selected, setSelected] = useState();
 
   function handleSubmit(data) {
@@ -30,10 +31,10 @@ export default function Dashboard() {
 
   return (
     <Container>
-      <Form schema={schema} onSubmit={handleSubmit}>
-        <BannerInput name="banner_id" />
+      <Form schema={schema} initialData={meetup} onSubmit={handleSubmit}>
+        <BannerInput name="image" />
 
-        <Input name="title" placeholder="Meetup title" />
+        <Input name="name" placeholder="Meetup title" />
         <Input
           name="description"
           placeholder="Type the meetup description"
