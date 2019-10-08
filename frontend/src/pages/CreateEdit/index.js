@@ -1,33 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
-import ReactDatePicker from 'react-datepicker';
 import { MdAddCircleOutline } from 'react-icons/md';
 import * as Yup from 'yup';
 
 import BannerInput from './BannerInput';
+import DatePicker from './DatePicker';
 
-import { createMeetupRequest } from '~/store/modules/meetup/actions';
+import {
+  createMeetupRequest,
+  editMeetupRequest,
+} from '~/store/modules/meetup/actions';
 
 import { Container } from './styles';
 
 const schema = Yup.object().shape({
-  image: Yup.number().required('Meetup banner is mandatory'),
-  name: Yup.string().required('Meetup title is mandatory'),
-  description: Yup.string().required('Meetup description is mandatory'),
-  date: Yup.date().required('Meetup date is mandatory'),
-  location: Yup.string().required('Meetup location is mandatory'),
+  image: Yup.number()
+    .max(255, 'Please enter up to 255 characters')
+    .required('Meetup banner is required'),
+  name: Yup.string().required('Meetup title is required'),
+  description: Yup.string().required('Meetup description is required'),
+  date: Yup.date().required('Meetup date is required'),
+  location: Yup.string().required('Meetup location is required'),
 });
 
 export default function Dashboard() {
   const dispatch = useDispatch();
   const meetup = useSelector(state => state.meetup.data);
-  const [selected, setSelected] = useState();
+  const nav = useSelector(state => state.meetup.nav);
 
   function handleSubmit(data) {
-    console.tron.log();
-    dispatch(createMeetupRequest(data));
+    if (nav === 'create') {
+      dispatch(createMeetupRequest(data));
+    } else {
+      const { id } = meetup;
+
+      const payload = {
+        ...data,
+        id,
+      };
+
+      dispatch(editMeetupRequest(payload));
+    }
   }
+
+  /**
+   * In order to define if a request is create or edit, we can create new states on redux which will determine whether
+   * it's an edit or create request based on the action
+   */
 
   return (
     <Container>
@@ -40,18 +60,8 @@ export default function Dashboard() {
           placeholder="Type the meetup description"
           multiline
         />
-        <ReactDatePicker
-          name="date"
-          placeholderText="Click here to select the meetup date"
-          selected={selected}
-          onChange={date => setSelected(date)}
-          showTimeSelect
-          timeFormat="HH:mm"
-          timeIntervals={30}
-          timeCaption="time"
-          dateFormat="MMMM d, yyyy h:mm aa"
-          minDate={new Date()}
-        />
+
+        <DatePicker name="date" />
         <Input name="location" placeholder="Meetup location" />
         <div className="buttonContainer">
           <button type="submit">

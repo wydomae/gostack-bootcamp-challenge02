@@ -50,17 +50,19 @@ export const MeetupList = styled.ul`
   display: flex;
   flex-direction: column;
 
-  button {
+  li {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
       background: rgba(0, 0, 0, 0.1);
       border: 0;
+      flex: 1;
       border-radius: 4px;
       padding: 20px 30px;
       margin-bottom: 10px;
-
-    li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
 
       strong {
         color: #fff;

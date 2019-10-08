@@ -7,17 +7,17 @@ import api from '~/services/api';
 import { Container } from './styles';
 
 export default function BannerInput() {
-  const { defaultValue, registerField } = useField('data.image');
+  const { defaultValue, registerField } = useField('File');
 
   const [file, setFile] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
-
   const ref = useRef();
+  const { error } = useField('image');
 
   useEffect(() => {
     if (ref.current) {
       registerField({
-        name: 'banner_id',
+        name: 'image',
         ref: ref.current,
         path: 'dataset.file',
       });
@@ -59,6 +59,7 @@ export default function BannerInput() {
           />
         </div>
       </label>
+      {error && <span>{error}</span>}
     </Container>
   );
 }

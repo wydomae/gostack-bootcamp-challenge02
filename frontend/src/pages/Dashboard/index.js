@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { MdAddCircleOutline, MdChevronRight } from 'react-icons/md';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { format, parseISO } from 'date-fns';
 import en from 'date-fns/locale/en-US';
 
 import api from '~/services/api';
 
-import { loadMeetupRequest, createMeetupRequest } from '~/store/modules/meetup/actions';
+import {
+  navigateDetails,
+  navigateCreate,
+} from '~/store/modules/meetup/actions';
 
 import { Container, MeetupHeader, MeetupList } from './styles';
 
@@ -35,11 +37,11 @@ export default function Dashboard() {
   }, []);
 
   function handleRequest(data) {
-    dispatch(loadMeetupRequest(data));
+    dispatch(navigateDetails(data));
   }
 
   function handleCreate() {
-    dispatch(createMeetupRequest());
+    dispatch(navigateCreate());
   }
 
   return (
@@ -47,24 +49,24 @@ export default function Dashboard() {
       <MeetupHeader>
         <strong>My meetups</strong>
         <button type="button" onClick={handleCreate}>
-            <div>
-              <MdAddCircleOutline size={20} color="#fff" />
-              <span>New Meetup</span>
-            </div>
+          <div>
+            <MdAddCircleOutline size={20} color="#fff" />
+            <span>New Meetup</span>
+          </div>
         </button>
       </MeetupHeader>
       <MeetupList>
         {meetups.length !== 0 ? (
           meetups.map(meetup => (
-            <button type="button" onClick={() => handleRequest(meetup)}>
-              <li key={meetup.id}>
+            <li key={meetup.id}>
+              <button type="button" onClick={() => handleRequest(meetup)}>
                 <strong>{meetup.name}</strong>
                 <div>
                   <span>{meetup.formattedDate}</span>
                   <MdChevronRight size={20} color="#fff" />
                 </div>
-              </li>
-            </button>
+              </button>
+            </li>
           ))
         ) : (
           <li>

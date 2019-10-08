@@ -5,50 +5,56 @@ import api from '~/services/api';
 import history from '~/services/history';
 
 import {
-  loadMeetupSuccess,
-  loadMeetupFailed,
   createMeetupSuccess,
   createMeetupFailed,
   editMeetupSuccess,
   editMeetupFailed,
   deleteMeetupSuccess,
-  deleteMeetupFailed
+  deleteMeetupFailed,
 } from './actions';
 
-export function* createMeetup() {
+export function* createMeetup({ payload }) {
   try {
+    const { name, description, location, date, image } = payload.data;
 
+    yield call(api.post, 'meetups', {
+      name,
+      description,
+      location,
+      date,
+      image,
+    });
+
+    toast.success('Meetup created successfully');
     yield put(createMeetupSuccess());
-    history.push('/create');
 
+    history.push('/dashboard');
   } catch (err) {
-
-    toast.error('Cannot open create page');
+    const { error } = err.response.data;
+    toast.error(error);
     yield put(createMeetupFailed());
-
-  }
-}
-
-export function* loadMeetup({ payload }) {
-  try {
-    const { data } = payload;
-
-    yield put(loadMeetupSuccess(data));
-    history.push('/details');
-  } catch (err) {
-    toast.error('Cannot open meetup details');
-    yield put(loadMeetupFailed());
   }
 }
 
 export function* editMeetup({ payload }) {
   try {
-    const { data } = payload;
+    const { name, description, location, date, image, id } = payload.data;
 
-    yield put(editMeetupSuccess(data));
-    history.push('/edit');
+    const response = yield call(api.put, `meetups/${id}`, {
+      name,
+      description,
+      location,
+      date,
+      image,
+    });
+
+    toast.success('Meetup updated successfully');
+    yield put(editMeetupSuccess(response.data));
+
+    history.push('/details');
   } catch (err) {
-    toast.error('Cannot open edit page');
+    const { error } = err.response.data;
+    toast.error(error);
     yield put(editMeetupFailed());
   }
 }
@@ -57,7 +63,7 @@ export function* deleteMeetup({ payload }) {
   try {
     const { id } = payload.data;
 
-    const response = yield call(api.delete, `meetups/${id}`);
+    yield call(api.delete, `meetups/${id}`);
 
     toast.success('Meetup cancelled successfully');
     yield put(deleteMeetupSuccess());
@@ -70,7 +76,6 @@ export function* deleteMeetup({ payload }) {
 }
 
 export default all([
-  takeLatest('@meetup/LOAD_REQUEST', loadMeetup),
   takeLatest('@meetup/CREATE_REQUEST', createMeetup),
   takeLatest('@meetup/EDIT_REQUEST', editMeetup),
   takeLatest('@meetup/DELETE_REQUEST', deleteMeetup),

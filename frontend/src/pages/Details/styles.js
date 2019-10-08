@@ -52,6 +52,8 @@ export const MeetupInfo = styled.div`
 
   img {
     border-radius: 4px;
+    max-width: 940px;
+    max-height: 300px;
   }
 
   strong {

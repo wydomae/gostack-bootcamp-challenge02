@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -9,7 +8,10 @@ import {
   MdLocationOn,
 } from 'react-icons/md';
 
-import { editMeetupRequest, deleteMeetupRequest } from '~/store/modules/meetup/actions';
+import {
+  navigateEdit,
+  deleteMeetupRequest,
+} from '~/store/modules/meetup/actions';
 
 import { Container, MeetupHeader, MeetupInfo, ActionButton } from './styles';
 
@@ -18,7 +20,7 @@ export default function Details() {
   const dispatch = useDispatch();
 
   function handleEdit(data) {
-    dispatch(editMeetupRequest(data));
+    dispatch(navigateEdit(data));
   }
 
   function handleDelete(data) {
@@ -57,7 +59,3 @@ export default function Details() {
     </Container>
   );
 }
-
-Details.propTypes = {
-  location: PropTypes.objectOf(PropTypes.shape()).isRequired,
-};
