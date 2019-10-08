@@ -74,7 +74,16 @@ class MeetupController {
       user_id: req.userId,
     });
 
-    return res.json(meetup);
+    const createdMeetup = await Meetup.findByPk(meetup.id, {
+      include: [
+        {
+          model: File,
+          attributes: ['id', 'path', 'url'],
+        },
+      ],
+    });
+
+    return res.json(createdMeetup);
   }
 
   async update(req, res) {
@@ -116,14 +125,19 @@ class MeetupController {
         .json({ error: 'You are not the organizer of this meetup' });
     }
 
-    const { name, description, location } = await meetup.update(req.body);
+    await meetup.update(req.body);
+
+    const updatedMeetup = await Meetup.findByPk(req.params.id, {
+      include: [
+        {
+          model: File,
+          attributes: ['id', 'path', 'url'],
+        },
+      ],
+    });
 
     return res.json({
-      name,
-      description,
-      location,
-      date: meetup.date,
-      image: image.id,
+      updatedMeetup
     });
   }
 
