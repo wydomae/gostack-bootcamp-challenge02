@@ -136,9 +136,7 @@ class MeetupController {
       ],
     });
 
-    return res.json({
-      updatedMeetup
-    });
+    return res.json(updatedMeetup);
   }
 
   async delete(req, res) {
