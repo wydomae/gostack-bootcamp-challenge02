@@ -56,9 +56,17 @@ export const MeetupList = styled.ul`
     justify-content: space-between;
     align-items: center;
 
+    strong {
+      color: #fff;
+      font-size: 20px;
+    }
+
     button {
       background: rgba(0, 0, 0, 0.1);
       border: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       flex: 1;
       border-radius: 4px;
       padding: 20px 30px;

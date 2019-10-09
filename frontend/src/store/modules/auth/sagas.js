@@ -39,6 +39,7 @@ export function* signUp({ payload }) {
       password,
     });
 
+    toast.success('Account created successfully');
     yield put(signUpSuccess());
 
     history.push('/');

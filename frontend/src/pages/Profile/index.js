@@ -13,10 +13,10 @@ const schema = Yup.object().shape({
   email: Yup.string().email(),
   oldPassword: Yup.string(),
   password: Yup.string().when('oldPassword', (oldPassword, field) =>
-    oldPassword ? field.required() : field
+    oldPassword ? field.min(6).required() : field
   ),
   passwordConfirmation: Yup.string().when('password', (password, field) =>
-    password ? field.required().oneOf([Yup.ref('password')]) : field
+    password ? field.required().oneOf([Yup.ref('password'), null], "Passwords don't match") : field
   ),
 });
 

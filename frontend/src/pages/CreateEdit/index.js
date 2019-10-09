@@ -15,11 +15,9 @@ import {
 import { Container } from './styles';
 
 const schema = Yup.object().shape({
-  image: Yup.number()
-    .max(255, 'Please enter up to 255 characters')
-    .required('Meetup banner is required'),
+  image: Yup.number().required('Meetup banner is required'),
   name: Yup.string().required('Meetup title is required'),
-  description: Yup.string().required('Meetup description is required'),
+  description: Yup.string().max(255, 'Please enter less than 255 characters').required('Meetup description is required'),
   date: Yup.date().required('Meetup date is required'),
   location: Yup.string().required('Meetup location is required'),
 });
@@ -43,11 +41,6 @@ export default function Dashboard() {
       dispatch(editMeetupRequest(payload));
     }
   }
-
-  /**
-   * In order to define if a request is create or edit, we can create new states on redux which will determine whether
-   * it's an edit or create request based on the action
-   */
 
   return (
     <Container>
