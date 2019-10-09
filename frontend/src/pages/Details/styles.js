@@ -46,15 +46,20 @@ export const ActionButton = styled.button`
   }
 `;
 
-export const MeetupInfo = styled.div`
-  display: flex;
-  flex-direction: column;
+
+export const ImageContainer = styled.div`
+align-self: center;
 
   img {
     border-radius: 4px;
     max-width: 940px;
     max-height: 300px;
   }
+`;
+
+export const MeetupInfo = styled.div`
+  display: flex;
+  flex-direction: column;
 
   strong {
     font-weight: 400;
@@ -67,6 +72,7 @@ export const MeetupInfo = styled.div`
     display: flex;
     align-items: center;
     margin-top: 25px;
+    text-align: center;
 
     div {
       display-flex;

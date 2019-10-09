@@ -48,8 +48,7 @@ export const Container = styled.div`
         padding: 10px 20px;
         border: 0;
         border-radius: 4px;
-        display: block;
-        width: 160px;
+        height: 42px;
         margin-top: 10px;
         transition: background 0.2;
 
@@ -62,9 +61,14 @@ export const Container = styled.div`
           justify-content: center;
           align-items: center;
 
+          svg {
+            margin-bottom: 7px;
+          }
+
           span {
             color: #fff;
             margin-left: 5px;
+            margin-top: 2px;
           }
         }
       }

@@ -13,7 +13,7 @@ import {
   deleteMeetupRequest,
 } from '~/store/modules/meetup/actions';
 
-import { Container, MeetupHeader, MeetupInfo, ActionButton } from './styles';
+import { Container, MeetupHeader, MeetupInfo, ActionButton, ImageContainer } from './styles';
 
 export default function Details() {
   const meetup = useSelector(state => state.meetup.data);
@@ -43,7 +43,9 @@ export default function Details() {
         </div>
       </MeetupHeader>
       <MeetupInfo>
-        <img src={meetup.File.url} alt={meetup.name} />
+        <ImageContainer>
+          <img src={meetup.File.url} alt={meetup.name} />
+        </ImageContainer>
         <strong>{meetup.description}</strong>
         <div>
           <div>
