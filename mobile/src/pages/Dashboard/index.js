@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { format, subDays, addDays } from 'date-fns';
 import en from 'date-fns/locale/en-US';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -12,14 +12,24 @@ import Background from '~/components/Background';
 import Header from '~/components/Header';
 import Meetups from '~/components/Meetups';
 
-import { Container, DateContainer, DateText, MeetupList } from './styles';
+import {
+  Container,
+  DateContainer,
+  DateText,
+  MeetupList,
+  Footer,
+} from './styles';
 
 export default function Dashboard() {
   const [meetups, setMeetups] = useState([]);
   const [date, setDate] = useState(new Date());
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function loadMeetups() {
+      setLoading(true);
+
       const response = await api.get('meetups', {
         params: {
           date,
@@ -27,11 +37,28 @@ export default function Dashboard() {
         },
       });
 
-      console.tron.log(response.data);
+      setPage(1);
+      setLoading(false);
+      setMeetups(response.data);
     }
 
     loadMeetups();
-  }, [date]);
+  }, [date]); // eslint-disable-line 
+
+  async function loadMoreMeetups() {
+    setLoading(true);
+
+    const response = await api.get('meetups', {
+      params: {
+        date,
+        page: page + 1,
+      },
+    });
+
+    setPage(page + 1);
+    setLoading(false);
+    setMeetups([...meetups, ...response.data]);
+  }
 
   const dateFormatted = useMemo(() => format(date, 'MMMM do', { locale: en }), [
     date,
@@ -44,8 +71,6 @@ export default function Dashboard() {
   function handleNextDay() {
     setDate(addDays(date, 1));
   }
-
-  const data = [1, 2, 3, 4, 5];
 
   return (
     <Background>
@@ -65,9 +90,19 @@ export default function Dashboard() {
         </DateContainer>
 
         <MeetupList
-          data={data}
-          keyExtractor={item => String(data)}
+          data={meetups}
+          keyExtractor={item => String(item.id)}
           renderItem={({ item }) => <Meetups data={item} />}
+          onEndReached={loadMoreMeetups}
+          onEndReachedThreshold={0.1}
+          listFooterComponent={() => {
+            if (!loading) return null;
+            return (
+              <Footer>
+                <ActivityIndicator color="rgba(255, 255, 255, 0.6)" />
+              </Footer>
+            );
+          }}
         />
       </Container>
     </Background>

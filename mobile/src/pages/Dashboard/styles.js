@@ -20,3 +20,8 @@ export const MeetupList = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: { padding: 30 },
 })``;
+
+export const Footer = styled.View`
+  justify-content: center;
+  align-items: center;
+`;

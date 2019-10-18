@@ -1,8 +1,9 @@
 import React from 'react';
+import { format, parseISO } from 'date-fns';
+import en from 'date-fns/locale/en-US';
+import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-import Image from '~/assets/Bitmap.png';
 
 import {
   Container,
@@ -14,27 +15,29 @@ import {
   SubmitButton,
 } from './styles';
 
-export default function Meetups() {
+export default function Meetups({ data }) {
   return (
     <Container>
-      <Banner source={Image} />
+      <Banner source={{ uri: data.File.url }} />
 
       <MeetupInfo>
-        <Title>React Native Meetup</Title>
+        <Title>{data.name}</Title>
 
         <DetailsContainer>
           <Icon name="event" size={20} color="#999999" />
-          <Details>October 15 at 2PM</Details>
+          <Details>
+            {format(parseISO(data.date), "MMMM do 'at' h aa", { locale: en })}
+          </Details>
         </DetailsContainer>
 
         <DetailsContainer>
           <Icon name="location-on" size={20} color="#999999" />
-          <Details>São Paulo</Details>
+          <Details>{data.location}</Details>
         </DetailsContainer>
 
         <DetailsContainer>
           <Icon name="person" size={20} color="#999999" />
-          <Details>Organizer: Wesley Domae</Details>
+          <Details>Organizer: {data.User.name}</Details>
         </DetailsContainer>
 
         <SubmitButton>Subscribe</SubmitButton>
@@ -42,3 +45,11 @@ export default function Meetups() {
     </Container>
   );
 }
+
+Meetups.propTypes = {
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+};
+
+Meetups.defaultProps = {
+  data: {},
+};
