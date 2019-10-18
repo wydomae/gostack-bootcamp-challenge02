@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
+import File from '../models/File';
 
 import SubscriptionMail from '../jobs/SubscriptionMail';
 import Queue from '../../lib/Queue';
@@ -14,15 +15,23 @@ class SubscriptionController {
       where: {
         user_id: req.userId,
       },
-      include: {
-        model: Meetup,
-        attributes: ['name', 'description', 'location', 'date'],
-        where: {
-          date: {
-            [Op.gte]: new Date(),
+      include: [
+        {
+          model: Meetup,
+          attributes: ['id', 'name', 'description', 'location', 'date'],
+          where: {
+            date: {
+              [Op.gte]: new Date(),
+            },
           },
+          include: [
+            {
+              model: File,
+              attributes: ['id', 'path', 'url'],
+            },
+          ],
         },
-      },
+      ],
       order: [[Meetup, 'date']],
     });
 
