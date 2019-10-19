@@ -29,13 +29,19 @@ class SubscriptionController {
               model: File,
               attributes: ['id', 'path', 'url'],
             },
+            {
+              model: User,
+              attributes: ['id', 'name'],
+            },
           ],
         },
       ],
       order: [[Meetup, 'date']],
     });
 
-    return res.json(subscription);
+    const parsedData = subscription.map(item => item.Meetup);
+
+    return res.json(parsedData);
   }
 
   async store(req, res) {
