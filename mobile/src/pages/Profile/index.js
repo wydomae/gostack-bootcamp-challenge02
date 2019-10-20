@@ -12,8 +12,8 @@ import { updateProfileRequest } from '~/store/modules/user/actions';
 
 import {
   Container,
-  Form,
   Separator,
+  Form,
   FormInput,
   SubmitButton,
   LogoutButton,
@@ -40,7 +40,7 @@ export default function Dashboard() {
     setPasswordConfirmation('');
   }, [profile]);
 
-  function handleSubmit() {
+  async function handleSubmit() {
     dispatch(
       updateProfileRequest({
         name,
@@ -71,7 +71,6 @@ export default function Dashboard() {
             value={name}
             onChangeText={setName}
           />
-
           <FormInput
             keyboardType="email-address"
             autoCorrect={false}
@@ -83,9 +82,7 @@ export default function Dashboard() {
             value={email}
             onChangeText={setEmail}
           />
-
           <Separator />
-
           <FormInput
             secureTextEntry
             autoCapitalize="none"
@@ -96,7 +93,6 @@ export default function Dashboard() {
             value={oldPassword}
             onChangeText={setOldPassword}
           />
-
           <FormInput
             secureTextEntry
             autoCapitalize="none"
@@ -107,7 +103,6 @@ export default function Dashboard() {
             value={password}
             onChangeText={setPassword}
           />
-
           <FormInput
             secureTextEntry
             autoCapitalize="none"
@@ -118,7 +113,6 @@ export default function Dashboard() {
             value={passwordConfirmation}
             onChangeText={setPasswordConfirmation}
           />
-
           <SubmitButton onPress={handleSubmit}>Update profile</SubmitButton>
           <LogoutButton onPress={handleLogout}>Log out</LogoutButton>
         </Form>

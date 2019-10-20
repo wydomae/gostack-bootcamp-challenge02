@@ -25,3 +25,14 @@ export const Footer = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+export const EmptyContainer = styled.View`
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const EmptyText = styled.Text`
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.6);
+`;

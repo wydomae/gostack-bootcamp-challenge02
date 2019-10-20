@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 import Button from '~/components/Button';
 
 export const Container = styled.View`
-  flex: 1;
   border-radius: 4px;
   background: #fff;
   margin-bottom: 20px;
@@ -15,7 +14,6 @@ export const MeetupInfo = styled.View`
 `;
 
 export const Banner = styled.Image`
-  flex: 1;
   width: 100%;
   resize-mode: cover;
   height: 150px;

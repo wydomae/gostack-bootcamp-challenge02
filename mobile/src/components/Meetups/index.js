@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { Alert } from 'react-native';
 import { format, parseISO } from 'date-fns';
 import en from 'date-fns/locale/en-US';
 import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import api from '~/services/api';
 
 import {
   Container,
@@ -16,6 +19,31 @@ import {
 } from './styles';
 
 export default function Meetups({ data, type }) {
+  const formattedDate = useMemo(
+    () => format(parseISO(data.date), "MMMM do 'at' h aa", { locale: en }),
+    [data.date]
+  );
+
+  async function handleSubmit() {
+    if (type === 'dashboard') {
+      try {
+        await api.post(`/meetups/${data.id}/subscriptions`);
+        Alert.alert('Subscribed', 'Subscribed to the meetup successfully');
+      } catch (err) {
+        const { error } = err.response.data;
+        Alert.alert('Error', error);
+      }
+    } else {
+      try {
+        await api.delete(`/meetups/${data.id}/subscriptions`);
+        Alert.alert('Unsubscribed', 'Unsubscribed to the meetup successfully');
+      } catch (err) {
+        const { error } = err.response.data;
+        Alert.alert('Error', error);
+      }
+    }
+  }
+
   return (
     <Container>
       <Banner source={{ uri: data.File.url }} />
@@ -25,9 +53,7 @@ export default function Meetups({ data, type }) {
 
         <DetailsContainer>
           <Icon name="event" size={20} color="#999999" />
-          <Details>
-            {format(parseISO(data.date), "MMMM do 'at' h aa", { locale: en })}
-          </Details>
+          <Details>{formattedDate}</Details>
         </DetailsContainer>
 
         <DetailsContainer>
@@ -40,7 +66,7 @@ export default function Meetups({ data, type }) {
           <Details>Organizer: {data.User.name}</Details>
         </DetailsContainer>
 
-        <SubmitButton type={type}>
+        <SubmitButton type={type} onPress={handleSubmit}>
           {' '}
           {type === 'dashboard' ? 'Subscribe' : 'Unsubscribe'}{' '}
         </SubmitButton>

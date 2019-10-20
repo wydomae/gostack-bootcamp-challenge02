@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { TouchableOpacity, ActivityIndicator } from 'react-native';
 import { format, subDays, addDays } from 'date-fns';
 import en from 'date-fns/locale/en-US';
-import { TouchableOpacity, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -18,6 +18,8 @@ import {
   DateText,
   MeetupList,
   Footer,
+  EmptyContainer,
+  EmptyText,
 } from './styles';
 
 export default function Dashboard() {
@@ -89,21 +91,30 @@ export default function Dashboard() {
           </TouchableOpacity>
         </DateContainer>
 
-        <MeetupList
-          data={meetups}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => <Meetups data={item} type="dashboard" />}
-          onEndReached={loadMoreMeetups}
-          onEndReachedThreshold={0.1}
-          listFooterComponent={() => {
-            if (!loading) return null;
-            return (
-              <Footer>
-                <ActivityIndicator color="rgba(255, 255, 255, 0.6)" />
-              </Footer>
-            );
-          }}
-        />
+        {meetups.length !== 0 ? (
+          <MeetupList
+            data={meetups}
+            keyExtractor={item => String(item.id)}
+            renderItem={({ item }) => <Meetups data={item} type="dashboard" />}
+            onEndReached={
+              meetups.length >= page * 10 ? () => loadMoreMeetups() : null
+            }
+            onEndReachedThreshold={0.1}
+            listFooterComponent={() => {
+              if (!loading) return null;
+              return (
+                <Footer>
+                  <ActivityIndicator color="rgba(255, 255, 255, 0.6)" />
+                </Footer>
+              );
+            }}
+          />
+        ) : (
+          <EmptyContainer>
+            <Icon name="block" size={40} color="rgba(255, 255, 255, 0.6)" />
+            <EmptyText>There are no meetups today</EmptyText>
+          </EmptyContainer>
+        )}
       </Container>
     </Background>
   );
