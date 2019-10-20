@@ -40,4 +40,6 @@ export const Details = styled.Text`
 
 export const SubmitButton = styled(Button)`
   margin-top: 5px;
+  background: ${props =>
+    props.type === 'subscriptions' ? '#D44059' : '#F94D6A'};
 `;

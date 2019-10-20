@@ -31,7 +31,9 @@ export default function Dashboard() {
         <MeetupList
           data={meetups}
           keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => <Meetups data={item} />}
+          renderItem={({ item }) => (
+            <Meetups data={item} type="subscriptions" />
+          )}
         />
       </Container>
     </Background>

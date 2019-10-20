@@ -92,7 +92,7 @@ export default function Dashboard() {
         <MeetupList
           data={meetups}
           keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => <Meetups data={item} />}
+          renderItem={({ item }) => <Meetups data={item} type="dashboard" />}
           onEndReached={loadMoreMeetups}
           onEndReachedThreshold={0.1}
           listFooterComponent={() => {

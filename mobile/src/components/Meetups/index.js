@@ -15,7 +15,7 @@ import {
   SubmitButton,
 } from './styles';
 
-export default function Meetups({ data }) {
+export default function Meetups({ data, type }) {
   return (
     <Container>
       <Banner source={{ uri: data.File.url }} />
@@ -40,7 +40,10 @@ export default function Meetups({ data }) {
           <Details>Organizer: {data.User.name}</Details>
         </DetailsContainer>
 
-        <SubmitButton>Subscribe</SubmitButton>
+        <SubmitButton type={type}>
+          {' '}
+          {type === 'dashboard' ? 'Subscribe' : 'Unsubscribe'}{' '}
+        </SubmitButton>
       </MeetupInfo>
     </Container>
   );
@@ -48,6 +51,7 @@ export default function Meetups({ data }) {
 
 Meetups.propTypes = {
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  type: PropTypes.string.isRequired,
 };
 
 Meetups.defaultProps = {
