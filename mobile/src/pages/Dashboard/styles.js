@@ -21,10 +21,7 @@ export const MeetupList = styled.FlatList.attrs({
   contentContainerStyle: { padding: 30 },
 })``;
 
-export const Footer = styled.View`
-  justify-content: center;
-  align-items: center;
-`;
+export const Footer = styled.View``;
 
 export const EmptyContainer = styled.View`
   margin-top: 30px;

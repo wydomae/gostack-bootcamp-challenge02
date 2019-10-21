@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -12,25 +13,26 @@ import Meetup from '~/components/Meetups';
 import { Container, MeetupList, EmptyContainer, EmptyText } from './styles';
 
 export default function Dashboard() {
-  const [meetups, setMeetups] = useState([]);
+  const count = useSelector(state => state.meetups.count);
+  const [subscriptions, setSubscriptions] = useState([]);
 
   useEffect(() => {
     async function loadMeetups() {
       const response = await api.get('subscriptions');
 
-      setMeetups(response.data);
+      setSubscriptions(response.data);
     }
 
     loadMeetups();
-  }, [meetups]);
+  }, [count]);
 
   return (
     <Background>
       <Header />
       <Container>
-        {meetups.length !== 0 ? (
+        {subscriptions.length !== 0 ? (
           <MeetupList
-            data={meetups}
+            data={subscriptions}
             keyExtractor={item => String(item.id)}
             renderItem={({ item }) => (
               <Meetup data={item} type="subscriptions" />

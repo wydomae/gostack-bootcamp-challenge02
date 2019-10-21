@@ -1,12 +1,15 @@
 import React, { useMemo } from 'react';
-import { Alert } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { format, parseISO } from 'date-fns';
 import en from 'date-fns/locale/en-US';
 import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import api from '~/services/api';
+import {
+  addMeetupRequest,
+  removeMeetupRequest,
+} from '~/store/modules/meetups/actions';
 
 import {
   Container,
@@ -19,28 +22,17 @@ import {
 } from './styles';
 
 export default function Meetups({ data, type }) {
+  const dispatch = useDispatch();
   const formattedDate = useMemo(
     () => format(parseISO(data.date), "MMMM do 'at' h aa", { locale: en }),
     [data.date]
   );
 
-  async function handleSubmit() {
+  async function handleSubmit(id) {
     if (type === 'dashboard') {
-      try {
-        await api.post(`/meetups/${data.id}/subscriptions`);
-        Alert.alert('Subscribed', 'Subscribed to the meetup successfully');
-      } catch (err) {
-        const { error } = err.response.data;
-        Alert.alert('Error', error);
-      }
+      dispatch(addMeetupRequest(id));
     } else {
-      try {
-        await api.delete(`/meetups/${data.id}/subscriptions`);
-        Alert.alert('Unsubscribed', 'Unsubscribed to the meetup successfully');
-      } catch (err) {
-        const { error } = err.response.data;
-        Alert.alert('Error', error);
-      }
+      dispatch(removeMeetupRequest(id));
     }
   }
 
@@ -66,7 +58,7 @@ export default function Meetups({ data, type }) {
           <Details>Organizer: {data.User.name}</Details>
         </DetailsContainer>
 
-        <SubmitButton type={type} onPress={handleSubmit}>
+        <SubmitButton type={type} onPress={() => handleSubmit(data.id)}>
           {' '}
           {type === 'dashboard' ? 'Subscribe' : 'Unsubscribe'}{' '}
         </SubmitButton>

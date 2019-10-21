@@ -45,7 +45,7 @@ export default function Dashboard() {
     }
 
     loadMeetups();
-  }, [date]); // eslint-disable-line 
+  }, [date]);
 
   async function loadMoreMeetups() {
     setLoading(true);
@@ -74,6 +74,14 @@ export default function Dashboard() {
     setDate(addDays(date, 1));
   }
 
+  function renderFooter() {
+    return loading ? (
+      <Footer>
+        <ActivityIndicator color="#F94D6A" size="large" />
+      </Footer>
+    ) : null;
+  }
+
   return (
     <Background>
       <Header />
@@ -100,14 +108,7 @@ export default function Dashboard() {
               meetups.length >= page * 10 ? () => loadMoreMeetups() : null
             }
             onEndReachedThreshold={0.1}
-            listFooterComponent={() => {
-              if (!loading) return null;
-              return (
-                <Footer>
-                  <ActivityIndicator color="rgba(255, 255, 255, 0.6)" />
-                </Footer>
-              );
-            }}
+            ListFooterComponent={renderFooter}
           />
         ) : (
           <EmptyContainer>
