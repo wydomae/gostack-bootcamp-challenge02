@@ -37,6 +37,11 @@ export default createGlobalStyle`
     cursor: pointer;
   }
 
+  //react-toastify formatting
+  .Toastify__toast-body {
+    font: 16px 'Roboto', sans-serif;
+  }
+
   //react-datepicker formatting
   form {
     .react-datepicker-wrapper,
