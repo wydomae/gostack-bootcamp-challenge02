@@ -24,9 +24,13 @@ export default function Dashboard() {
       const data = response.data.map(resp => {
         return {
           ...resp,
-          formattedDate: format(parseISO(resp.date), "MMMM',' d 'at' h:mm aa", {
-            locale: en,
-          }),
+          formattedDate: format(
+            parseISO(resp.date),
+            "MMMM',' do 'at' h:mm aa",
+            {
+              locale: en,
+            }
+          ),
         };
       });
 

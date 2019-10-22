@@ -36,7 +36,7 @@ export default function DatePicker() {
         timeFormat="HH:mm"
         timeIntervals={30}
         timeCaption="time"
-        dateFormat="MMMM d, yyyy h:mm aa"
+        dateFormat="MMMM do, yyyy h:mm aa"
         minDate={new Date()}
       />
       {error && <span>{error}</span>}

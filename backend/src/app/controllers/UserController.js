@@ -51,7 +51,13 @@ class UserController {
       return res.status(400).json({ error: 'Validation failed' });
     }
 
-    const { email, oldPassword } = req.body;
+    const { email, oldPassword, password } = req.body;
+
+    if (password && !oldPassword) {
+      return res
+        .status(400)
+        .json({ error: 'Please inform your current password' });
+    }
 
     const user = await User.findByPk(req.userId);
 
