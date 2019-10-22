@@ -18,7 +18,7 @@ class SubscriptionMail {
         organizer: meetup.User.name,
         meetup: meetup.name,
         user: user.name,
-        date: format(parseISO(meetup.date), "MMMM',' d 'at' h:mm aa", {
+        date: format(parseISO(meetup.date), "MMMM',' do 'at' h:mm aa", {
           locale: en,
         }),
       },
