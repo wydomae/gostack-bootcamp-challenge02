@@ -24,7 +24,7 @@ import {
 export default function Meetups({ data, type }) {
   const dispatch = useDispatch();
   const formattedDate = useMemo(
-    () => format(parseISO(data.date), "MMMM do 'at' h aa", { locale: en }),
+    () => format(parseISO(data.date), "MMMM do 'at' h:mm aa", { locale: en }),
     [data.date]
   );
 
