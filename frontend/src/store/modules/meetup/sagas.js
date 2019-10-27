@@ -70,7 +70,8 @@ export function* deleteMeetup({ payload }) {
 
     history.push('/dashboard');
   } catch (err) {
-    toast.error('Cancellation failed');
+    const { error } = err.response.data;
+    toast.error(error);
     yield put(deleteMeetupFailed());
   }
 }

@@ -16,7 +16,11 @@ const schema = Yup.object().shape({
     oldPassword ? field.min(6).required() : field
   ),
   passwordConfirmation: Yup.string().when('password', (password, field) =>
-    password ? field.required().oneOf([Yup.ref('password'), null], "Passwords don't match") : field
+    password
+      ? field
+          .required()
+          .oneOf([Yup.ref('password'), null], "Passwords don't match")
+      : field
   ),
 });
 
