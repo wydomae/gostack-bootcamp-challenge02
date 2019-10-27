@@ -48,10 +48,10 @@ Once your Postgres database is running, please connect to the database client (e
 
 After cloning this project in your machine, open your terminal/cmd, navigate to the backend directory using `cd backend` and run the command `yarn`. <br />
 
-This should install all required dependencies. <br /><br />
+This should install all required dependencies. <br />
 
 After all dependencies are installed, please create a file named `.env` in the folder to create the environment variables for the project. <br />
-You can use the file `.env.example` as reference to fill all required fields. <br /><br /
+You can use the file `.env.example` as reference to fill all required fields. <br />
 
 ### 3. Database Migrations & Seeds
 
@@ -124,7 +124,7 @@ Run the command `yarn` to install all the required dependencies. <br />
 
 Start your Android emulator or plug your Android device to your computer and make sure Developer mode is enabled. <br />
 
-After starting and connecting your Android device to your local machine it's required to set reverse connection between backend and mobile - this is required in order for the Android app to retrieve and display all images that comes from backend correctly within the app. You can find a sample command below:
+After starting and connecting your Android device to your local machine it's required to set reverse connection between backend and mobile in order for the mobile app to retrieve and display the image from backend server correctly. You can find a sample command below:
 
 ```js
 adb reverse tcp:3333 tcp:3333
@@ -148,4 +148,4 @@ Once the App is compiled and installed, you can relaunch the app if needed using
 react-native start --reset-cache
 ```
 
-<br /><br />
+<br />
