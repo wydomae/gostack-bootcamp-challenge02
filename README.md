@@ -9,11 +9,11 @@ This project is part of the certification assignment from Rocketseat GoStack Boo
 
 ## Getting Started
 
-- <a href="#-backend-using-nodejs-with-express">Backend</a>
+- <a href="#gear-backend-using-nodejs-with-express">Backend</a>
 - <a href="#computer-frontend-using-reactjs">Frontend</a>
 - <a href="#iphone-mobile-using-react-native">Mobile</a>
 
-## ⚙️ Backend using NodeJS with Express
+## :gear: Backend using NodeJS with Express
 
 In order to run start the Rest API project, please follow the instructions below:
 
