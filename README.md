@@ -90,11 +90,15 @@ yarn queue
 
 Before starting the application, please make sure that your Rest API server is running.
 
-### 1. Starting the application
+### 1. Installating dependencies and setting environment variables
 
 Navigate to the frontend directory using your terminal/cmd with `cd frontend`. <br />
 
 Run the command `yarn` to install all the required dependencies. <br />
+
+Create the file .env.development pointing to the IP address and port where the API server is running. You can use the file .env.example as reference.
+
+### 2. Starting the application
 
 You can start the frontend application by running the following command below:
 
